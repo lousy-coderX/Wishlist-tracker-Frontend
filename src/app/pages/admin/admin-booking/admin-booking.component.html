@@ -1,0 +1,78 @@
+<div class="content">
+  <div class="users">
+    <mat-tab-group mat-align-tabs="center" preserveContent>
+
+      <!-- CREATE Section -->
+      <mat-tab label="CREATE">
+        <div class="create-wishlist">
+          <form style="display: flex; flex-direction: column;" [formGroup]="createWishlistForm" (ngSubmit)="createWishlist()">
+            <div class="form-title">
+              <h1>Create a New Wishlist:</h1>
+            </div>
+
+            <!-- Wishlist Name Input -->
+            <mat-form-field appearance="fill">
+              <mat-label>Wishlist Name</mat-label>
+              <input matInput formControlName="name" placeholder="Enter wishlist name">
+            </mat-form-field>
+
+            <!-- Description Input -->
+            <mat-form-field appearance="fill">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="description" placeholder="Enter description"></textarea>
+            </mat-form-field>
+
+            <!-- Category Input -->
+            <mat-form-field appearance="fill">
+              <mat-label>Category</mat-label>
+              <input matInput formControlName="category" placeholder="Enter category">
+            </mat-form-field>
+
+            <!-- Submit Button -->
+            <button mat-button type="submit" [disabled]="createWishlistForm.invalid">Submit</button>
+          </form>
+        </div>
+      </mat-tab>
+
+      <!-- VIEW Section -->
+      <mat-tab label="VIEW">
+        <div class="show-dest">
+          <!-- Table to display wishlists -->
+          <table mat-table [dataSource]="wishlists" class="mat-elevation-z8">
+            <ng-container matColumnDef="userId">
+              <th mat-header-cell *matHeaderCellDef>UserID</th>
+              <td mat-cell *matCellDef="let wishlist">{{ wishlist.user.username }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="wishlistName">
+              <th mat-header-cell *matHeaderCellDef>Wishlist Name</th>
+              <td mat-cell *matCellDef="let wishlist">{{ wishlist.name }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef>Description</th>
+              <td mat-cell *matCellDef="let wishlist">{{ wishlist.description }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="category">
+              <th mat-header-cell *matHeaderCellDef>Category</th>
+              <td mat-cell *matCellDef="let wishlist">{{ wishlist.category }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let wishlist">
+                <button mat-button color="warn" (click)="deleteWishlist(wishlist.id)">DELETE</button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+
+        </div>
+      </mat-tab>
+
+    </mat-tab-group>
+  </div>
+</div>

@@ -1,0 +1,108 @@
+<div class="content">
+  <div class="destinations">
+    <mat-tab-group mat-align-tabs="center" preserveContent>
+    
+      <!-- CREATE Section -->
+      <mat-tab label="CREATE">
+        <div class="create-dest">
+          <form [formGroup]="destinationForm" (ngSubmit)="createDest()">
+            <div class="form-title">
+              <h1>Create a new Destination:</h1>
+            </div>
+
+            <!-- Wishlist ID Dropdown -->
+            <mat-form-field appearance="fill">
+              <mat-label>Wishlist</mat-label>
+              <mat-select formControlName="wishlistId">
+                <mat-option *ngFor="let wishlist of wishlists" [value]="wishlist.id">
+                  {{ wishlist.name }}
+                </mat-option>
+              </mat-select>
+              <mat-hint>Choose a wishlist</mat-hint>
+            </mat-form-field>
+
+            <!-- Location Input -->
+            <mat-form-field appearance="fill">
+              <mat-label>Location</mat-label>
+              <input matInput formControlName="location" placeholder="Enter destination location">
+              <mat-hint>Enter destination location</mat-hint>
+            </mat-form-field>
+
+            <!-- Budget Input -->
+            <mat-form-field appearance="fill">
+              <mat-label>Budget</mat-label>
+              <input matInput formControlName="budget" type="number" placeholder="Enter your budget">
+              <mat-hint>Enter your budget</mat-hint>
+            </mat-form-field>
+
+            <!-- Notes Input -->
+            <mat-form-field appearance="fill">
+              <mat-label>Notes</mat-label>
+              <textarea matInput formControlName="notes" placeholder="Enter additional notes"></textarea>
+              <mat-hint>Additional notes</mat-hint>
+            </mat-form-field>
+
+            <!-- Visited Checkbox -->
+            <mat-checkbox style="padding-left: 15px;" formControlName="visited">Visited</mat-checkbox>
+
+            <button mat-button type="submit" id="form-btn" [disabled]="destinationForm.invalid">Submit</button>
+          </form>
+        </div>
+      </mat-tab>
+
+      <!-- LIST Section -->
+      <mat-tab label="LIST">
+        <div class="list-dest">
+          <div class="mat-table-container">
+            <table style="width: 100%;" mat-table [dataSource]="destinations">
+              <!-- Location Column -->
+              <ng-container matColumnDef="location">
+                <th mat-header-cell *matHeaderCellDef> Location </th>
+                <td mat-cell *matCellDef="let destination">{{destination.location}}</td>
+              </ng-container>
+      
+              <!-- Budget Column -->
+              <ng-container matColumnDef="budget">
+                <th mat-header-cell *matHeaderCellDef> Budget </th>
+                <td mat-cell *matCellDef="let destination">{{destination.budget}}</td>
+              </ng-container>
+      
+              <!-- Notes Column -->
+              <ng-container matColumnDef="notes">
+                <th mat-header-cell *matHeaderCellDef> Notes </th>
+                <td mat-cell *matCellDef="let destination">{{destination.notes}}</td>
+              </ng-container>
+      
+              <!-- Visited Column -->
+              <ng-container matColumnDef="visited">
+                <th mat-header-cell *matHeaderCellDef> Visited </th>
+                <td mat-cell *matCellDef="let destination">{{destination.visited ? 'Yes' : 'No'}}</td>
+              </ng-container>
+      
+              <!-- Wishlist Column -->
+              <ng-container matColumnDef="wishlist">
+                <th mat-header-cell *matHeaderCellDef> Wishlist </th>
+                <td mat-cell *matCellDef="let destination">{{destination.wishlist.name}}</td>
+              </ng-container>
+      
+              <!-- Actions Column (Edit and Delete) -->
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                <td mat-cell *matCellDef="let destination">
+                  <button mat-button (click)="editDestination1(destination)">EDIT</button>
+                  <button mat-button color="warn" (click)="deleteDest(destination.id)">DELETE</button>
+                </td>
+              </ng-container>
+      
+              <!-- Table Rows -->
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+        </div>
+      </mat-tab>
+      
+
+    </mat-tab-group>
+  </div>
+</div>
